@@ -1,0 +1,11 @@
+**/.env
+**/.env.*
+!**/.env.example
+**/local_config.h
+**/local.properties
+**/.gradle/
+**/build/
+**/myenv/
+**/node_modules/
+**/__pycache__/
+**/*.pt

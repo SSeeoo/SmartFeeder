@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    /* ... (스타일은 그대로 유지) ... */
+</style>
+
+<div id="content-container">
+    <h2>Welcome, {{ user }}!</h2>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flashes">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- 꺾은선 그래프와 막대 그래프를 표시할 canvas 요소 추가 -->
+    <div id="graph-container">
+        <canvas id="tempHumidityChart"></canvas>
+        <canvas id="weightBarChart"></canvas>
+        <div id="realtimeWeight">실시간 무게: <span id="weightValue"></span></div>
+    </div>
+
+    <div id="table-container">
+        {{ table_html|safe }}
+    </div>
+
+    <div id="settings-container">
+        <form id="settings-form">
+            <!-- 여기에 사용자 설정 폼을 추가 -->
+        </form>
+    </div>
+
+    <!-- 데이터를 JavaScript로 전달하기 위한 컨테이너 -->
+    <div id="dataContainer"
+        data-timestamps="{{ timestamps|tojson }}"
+        data-temperatures="{{ temperatures|tojson }}"
+        data-humidities="{{ humidities|tojson }}"
+        data-weights="{{ weights|tojson }}">
+    </div>
+</div>
+
+<!-- 필요한 JavaScript 라이브러리 추가 -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+
+<!-- 외부 JavaScript 파일 연결 -->
+<script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+
+{% endblock %}
